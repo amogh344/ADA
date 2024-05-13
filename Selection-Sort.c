@@ -1,40 +1,54 @@
 #include<stdio.h>
-int main()
+#include<stdlib.h>
+#include<time.h>
+#define MAX 20000
+
+void selectionSort(int a[], int n);
+
+int main(void)
 {
-    int min;
-    int a[5],n=5;
-    printf("Enter the elements of the array in jumbled order.\n");
-    for(int i=0;i<n;i++)
-    {
-        scanf("%d",&a[i]);
-    }
+    int a[MAX], n, i;
+    double startTime, endTime;
 
-    printf("The elements of the unsorted array is:\n");
-    for(int i=0;i<n;i++)
-    {
-        printf("%d ",a[i]);
-    }
-    //Selection sort
+    printf("Enter the number of elements to sort: ");
+    scanf("%d", &n);
 
-    for(int i=0;i<n;i++)
+    // Generate random numbers
+    srand(time(NULL));
+    for(i = 0; i < n; i++)
+        a[i] = rand();
+
+    printf("\nBefore Sorting:\n");
+    for(i = 0; i < n; i++)
+        printf("%d\t", a[i]);
+
+    startTime = clock();
+    selectionSort(a, n);
+    endTime = clock();
+
+    printf("\nAfter Sorting:\n");
+    for(i = 0; i < n; i++)
+        printf("%d\t", a[i]);
+
+    printf("\nTime taken is %10.9f seconds\n", (double)(endTime - startTime) / CLOCKS_PER_SEC);
+
+    return 0;
+}
+
+// Function to perform selection sort
+void selectionSort(int a[], int n)
+{
+    int i, j, min, temp;
+    for(i = 0; i < n-1; i++)
     {
-        min=i;
-        for(int j=i+1;j<n;j++)
+        min = i;
+        for(j = i+1; j < n; j++)
         {
-            if(a[min]>a[j])
-            {
-                int temp=a[min];
-                a[min]=a[j];
-                a[j]=temp;
-            }
+            if(a[j] < a[min])
+                min = j;
         }
+        temp = a[min];
+        a[min] = a[i];
+        a[i] = temp;
     }
-
-    printf("\nThe elements of the sorted array is:\n");
-    for(int i=0;i<n;i++)
-    {
-        printf("%d ",a[i]);
-    }
-return 0;
-
 }
